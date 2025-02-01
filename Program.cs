@@ -12,28 +12,34 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-var summaries = new[]
+app.MapPost("/robot/control", (Input input) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    if (string.IsNullOrWhiteSpace(input.command)) {
+        return "Please provide a command";
+    }
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    Command command = new Command(input.command);
+    return command.Execute();
+});
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+public class Input
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    public string? command { get; set; }
+}
+
+public class Command
+{
+    private string Input { get; set; }
+
+    public Command(string input)
+    {
+        Input = input;
+    }
+
+    public string Execute()
+    {
+        return Input;
+    }
 }
