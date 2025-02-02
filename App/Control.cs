@@ -23,6 +23,40 @@ public class Control
 
     public string Execute()
     {
-        return "Floor size is " + Floor.X + " by " + Floor.Y + " and there are " + Robots.Count + " robots and " + Instructions.Count + " instructions";
+        MoveRobots();
+        return GetRobotPositions();
+    }
+
+    private void MoveRobots()
+    {
+        foreach (KeyValuePair<string, Instruction> kvp in Instructions) {
+            Robot robot = Robots[kvp.Key];
+            foreach (char instruction in kvp.Value.Instructions) {
+                switch (instruction) {
+                    case 'L':
+                        robot.TurnLeft();
+                        break;
+                    case 'R':
+                        robot.TurnRight();
+                        break;
+                    case 'M':
+                        robot.MoveForward();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
+    private string GetRobotPositions()
+    {
+        List<string> output = [];
+        foreach (KeyValuePair<string, Robot> kvp in Robots) {
+            Robot robot = kvp.Value;
+            var cardinal = Cardinal.Direction.Where(d => d.Value == robot.Rotation).Select(d => d.Key);
+            output.Add(robot.X + " " + robot.Y + " " + String.Join(" ", cardinal));
+        }
+        return String.Join("\n", output);
     }
 }
