@@ -41,6 +41,7 @@ public class Control
                         break;
                     case 'M':
                         robot.MoveForward();
+                        CheckCollision();
                         break;
                     default:
                         break;
@@ -52,10 +53,27 @@ public class Control
     private string GetRobotPositions()
     {
         List<string> output = [];
-        foreach (KeyValuePair<string, Robot> kvp in Robots) {
-            Robot robot = kvp.Value;
+        foreach (Robot robot in Robots.Values) {
             output.Add(robot.ReportPosition());
         }
         return String.Join("\n", output);
+    }
+
+    private void CheckCollision()
+    {
+        foreach (KeyValuePair<string, Robot> kvpA in Robots) {
+            string uuidA = kvpA.Key;
+            Robot robotA = kvpA.Value;
+            foreach (KeyValuePair<string, Robot> kvpB in Robots) {
+                string uuidB = kvpB.Key;
+                Robot robotB = kvpB.Value;
+                if (uuidA == uuidB) {
+                    continue;
+                }
+                if (robotA.GetPosition() == robotB.GetPosition()) {
+                    throw new Exception("Collision detected /!\\");
+                }
+            }
+        }
     }
 }

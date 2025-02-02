@@ -56,9 +56,14 @@ public class Robot
         }
     }
 
+    public string GetPosition()
+    {
+        return X + " " + Y;
+    }
+
     public string ReportPosition()
     {
         var cardinal = Cardinal.Direction.Where(d => d.Value == Rotation).Select(d => d.Key);
-        return X + " " + Y + " " + String.Join(" ", cardinal);
+        return GetPosition() + " " + String.Join(" ", cardinal);
     }
 }
