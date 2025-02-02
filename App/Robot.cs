@@ -52,4 +52,10 @@ public class Robot
             X--;
         }
     }
+
+    public string ReportPosition()
+    {
+        var cardinal = Cardinal.Direction.Where(d => d.Value == Rotation).Select(d => d.Key);
+        return X + " " + Y + " " + String.Join(" ", cardinal);
+    }
 }

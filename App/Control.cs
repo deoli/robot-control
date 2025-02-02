@@ -54,8 +54,7 @@ public class Control
         List<string> output = [];
         foreach (KeyValuePair<string, Robot> kvp in Robots) {
             Robot robot = kvp.Value;
-            var cardinal = Cardinal.Direction.Where(d => d.Value == robot.Rotation).Select(d => d.Key);
-            output.Add(robot.X + " " + robot.Y + " " + String.Join(" ", cardinal));
+            output.Add(robot.ReportPosition());
         }
         return String.Join("\n", output);
     }

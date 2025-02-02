@@ -16,7 +16,7 @@ app.MapPost("/robot/control", (Input input) => {
         Control command = new Control(input.Parse());
         return command.Execute();
     } catch(Exception e) {
-        return e.Message;
+        return "[ERROR] " + e.Message;
     }
 });
 
