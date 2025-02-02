@@ -13,7 +13,7 @@ public class Control
         for (int i = 1; i < command.Length; i += 2) {
             Guid uuid = Guid.NewGuid();
 
-            Robot robot = new Robot(command[i].Split(' '));
+            Robot robot = new Robot(command[i].Split(' '), Floor);
             Robots.Add(uuid.ToString(), robot);
 
             Instruction instruction = new Instruction(command[i+1].ToCharArray());
@@ -31,7 +31,7 @@ public class Control
     {
         foreach (KeyValuePair<string, Instruction> kvp in Instructions) {
             Robot robot = Robots[kvp.Key];
-            foreach (char instruction in kvp.Value.Instructions) {
+            foreach (char instruction in kvp.Value.GetInstructions()) {
                 switch (instruction) {
                     case 'L':
                         robot.TurnLeft();

@@ -1,10 +1,11 @@
 public class Robot
 {
-    public int X { get; set; }
-    public int Y { get; set; }
-    public int Rotation { get; set; }
+    private int X { get; set; }
+    private int Y { get; set; }
+    private int Rotation { get; set; }
+    private Surface Floor { get; set; }
 
-    public Robot(string[] position)
+    public Robot(string[] position, Surface floor)
     {
         if (position.Length < 3) {
             throw new Exception("To initialise a robot, provide three values");
@@ -18,6 +19,8 @@ public class Robot
         }
 
         Rotation = Cardinal.Direction[position[2][0]];
+        
+        Floor = floor;
     }
 
     public void TurnLeft()
@@ -39,16 +42,16 @@ public class Robot
 
     public void MoveForward()
     {
-        if (Rotation == Cardinal.Direction['N']) {
+        if (Rotation == Cardinal.Direction['N'] && Y < Floor.Y) {
             Y++;
         }
-        if (Rotation == Cardinal.Direction['E']) {
+        if (Rotation == Cardinal.Direction['E'] && X < Floor.X) {
             X++;
         }
-        if (Rotation == Cardinal.Direction['S']) {
+        if (Rotation == Cardinal.Direction['S'] && Y > 0) {
             Y--;
         }
-        if (Rotation == Cardinal.Direction['W']) {
+        if (Rotation == Cardinal.Direction['W'] && X > 0) {
             X--;
         }
     }

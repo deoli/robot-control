@@ -1,9 +1,14 @@
 public class Instruction
 {
-    public char[] Instructions { get; set; }
+    private char[] Instructions { get; set; }
 
     public Instruction(char[] instructions)
     {
         Instructions = instructions;
+    }
+
+    public char[] GetInstructions()
+    {
+        return Instructions;
     }
 }
