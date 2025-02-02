@@ -12,12 +12,12 @@ if (app.Environment.IsDevelopment()) {
 }
 
 app.MapPost("/robot/control", (Input input) => {
-    if (string.IsNullOrWhiteSpace(input.command)) {
-        return "Please provide a command";
+    try {
+        Control command = new Control(input.Parse());
+        return command.Execute();
+    } catch(Exception e) {
+        return e.Message;
     }
-
-    Control command = new Control(input.command);
-    return command.Execute();
 });
 
 app.Run();
